@@ -1,4 +1,4 @@
-use crustaceans_of_life::grid::{self, Grid};
+use crustaceans_of_life::grid::Grid;
 fn main() {
     let mut grid = Grid::new(3, 3);
     grid.update_state();
