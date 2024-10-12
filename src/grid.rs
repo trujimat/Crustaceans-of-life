@@ -20,8 +20,8 @@ impl Grid {
     }
 
     pub fn update_state(&mut self) {
-        for x in 0..self.rows + 1 {
-            for y in 0..self.cols + 1 {
+        for x in 0..self.rows {
+            for y in 0..self.cols {
                 self.update_cell_state(x, y);
             }
         }
@@ -57,14 +57,34 @@ impl Grid {
 
     fn get_alive_neighbors(&self, x: usize, y: usize, dx: (i8, i8), dy: (i8, i8)) -> u8 {
         let mut alive_neighbors = 0;
-        for x_offset in dx.0..dx.1 {
-            for y_offset in dy.0..dy.1 {
+        for x_offset in dx.0..dx.1 + 1 {
+            for y_offset in dy.0..dy.1 + 1 {
                 let x_index = x as i8 + x_offset;
                 let y_index = y as i8 + y_offset;
-                if (x_index != 0 || y_index != 0)
-                    && self.cells[x_index as usize][y_index as usize].current_state == State::Alive
-                {
-                    alive_neighbors += 1;
+                if x < x_index as usize || (x == x_index as usize && y < y_index as usize) {
+                    if (x_index as usize != x || y_index as usize != y)
+                        && self.cells[x_index as usize][y_index as usize].current_state
+                            == State::Alive
+                    {
+                        alive_neighbors += 1;
+                        // println!(
+                        //     "at least one alive neighbor, alive_neigbors: {}",
+                        //     alive_neighbors
+                        // );
+                        // println!("and the cell is {:?}", (x, y));
+                    }
+                } else {
+                    if (x_index as usize != x || y_index as usize != y)
+                        && self.cells[x_index as usize][y_index as usize].previous_state
+                            == State::Alive
+                    {
+                        alive_neighbors += 1;
+                        // println!(
+                        //     "at least one alive neighbor 2, alive_neigbors: {}",
+                        //     alive_neighbors
+                        // );
+                        // println!("and the cell is {:?}", (x, y));
+                    }
                 }
             }
         }
@@ -78,6 +98,16 @@ impl Grid {
                     "The state of the observed cell {}{} is {:?} \n",
                     x, y, self.cells[x][y].current_state
                 );
+            }
+        }
+    }
+
+    pub fn try_custom_initial_config(&mut self, config: &[&[u8]]) {
+        for x in 0..self.rows {
+            for y in 0..self.cols {
+                if config[x][y] == 1 {
+                    self.cells[x][y].current_state = State::Alive;
+                }
             }
         }
     }
