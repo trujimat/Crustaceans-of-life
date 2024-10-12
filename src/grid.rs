@@ -63,7 +63,7 @@ impl Grid {
                 let y_index = y as i8 + y_offset;
                 if x < x_index as usize || (x == x_index as usize && y < y_index as usize) {
                     if (x_index as usize != x || y_index as usize != y)
-                        && self.cells[x_index as usize][y_index as usize].current_state
+                        && self.cells[x_index as usize][y_index as usize].get_current_state()
                             == State::Alive
                     {
                         alive_neighbors += 1;
@@ -75,7 +75,7 @@ impl Grid {
                     }
                 } else {
                     if (x_index as usize != x || y_index as usize != y)
-                        && self.cells[x_index as usize][y_index as usize].previous_state
+                        && self.cells[x_index as usize][y_index as usize].get_previous_state()
                             == State::Alive
                     {
                         alive_neighbors += 1;
@@ -96,7 +96,9 @@ impl Grid {
             for y in 0..self.cols {
                 println!(
                     "The state of the observed cell {}{} is {:?} \n",
-                    x, y, self.cells[x][y].current_state
+                    x,
+                    y,
+                    self.cells[x][y].get_current_state()
                 );
             }
         }
@@ -106,7 +108,7 @@ impl Grid {
         for x in 0..self.rows {
             for y in 0..self.cols {
                 if config[x][y] == 1 {
-                    self.cells[x][y].current_state = State::Alive;
+                    self.cells[x][y].set_current_state(State::Alive);
                 }
             }
         }

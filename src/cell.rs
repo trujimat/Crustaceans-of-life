@@ -1,7 +1,7 @@
 pub struct Cell {
-    pub current_state: State,
-    pub previous_state: State,
-    pub position: (usize, usize),
+    current_state: State,
+    previous_state: State,
+    position: (usize, usize),
 }
 
 #[derive(Debug, Clone, PartialEq)]
@@ -27,6 +27,13 @@ impl Cell {
             State::Dead => State::Dead,
         };
     }
-    fn get_previous_state(self) {}
-    fn get_neighbor_state(self) {}
+    pub fn get_previous_state(&self) -> State {
+        self.previous_state.clone()
+    }
+    pub fn get_current_state(&self) -> State {
+        self.current_state.clone()
+    }
+    pub fn set_current_state(&mut self, state: State) {
+        self.current_state = state;
+    }
 }
