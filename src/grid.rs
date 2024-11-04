@@ -1,4 +1,5 @@
 use crate::cell::{Cell, State};
+use ggez::*;
 
 pub struct Grid {
     rows: usize,
@@ -112,5 +113,18 @@ impl Grid {
                 }
             }
         }
+    }
+
+    pub fn draw(
+        &mut self,
+        ctx: &mut Context,
+        canvas: &mut graphics::Canvas,
+    ) -> Result<(), GameError> {
+        for x in 0..self.rows {
+            for y in 0..self.cols {
+                self.cells[x][y].draw(ctx, canvas)?;
+            }
+        }
+        Ok(())
     }
 }
