@@ -26,6 +26,8 @@ impl Grid {
                 self.update_cell_state(x, y);
             }
         }
+        println!("------------------------------------------------------------- \n");
+        self.print_state();
     }
 
     pub fn update_cell_state(&mut self, x: usize, y: usize) {
@@ -122,7 +124,9 @@ impl Grid {
     ) -> Result<(), GameError> {
         for x in 0..self.rows {
             for y in 0..self.cols {
-                self.cells[x][y].draw(ctx, canvas)?;
+                if self.cells[x][y].get_current_state() == State::Alive {
+                    self.cells[x][y].draw(ctx, canvas)?;
+                }
             }
         }
         Ok(())

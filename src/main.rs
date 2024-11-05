@@ -4,6 +4,7 @@ use crustaceans_of_life::grid::Grid;
 use ggez::conf::NumSamples;
 use ggez::*;
 
+const DESIRED_FPS: u32 = 8;
 struct State {
     dt: std::time::Duration,
     grid: Grid,
@@ -11,14 +12,17 @@ struct State {
 
 impl ggez::event::EventHandler<GameError> for State {
     fn update(&mut self, _ctx: &mut Context) -> Result<(), GameError> {
-        self.dt = _ctx.time.delta();
-        self.grid.update_state();
+        while _ctx.time.check_update_time(DESIRED_FPS) {
+            self.dt = _ctx.time.delta();
+            self.grid.update_state();
+        }
         Ok(())
     }
 
     fn draw(&mut self, _ctx: &mut Context) -> Result<(), GameError> {
         let mut canvas = graphics::Canvas::from_frame(_ctx, graphics::Color::BLACK);
         self.grid.draw(_ctx, &mut canvas)?;
+        canvas.finish(_ctx)?;
         Ok(())
     }
 }
