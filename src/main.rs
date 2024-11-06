@@ -1,45 +1,20 @@
 use crate::conf::FullscreenType;
 use conf::{WindowMode, WindowSetup};
-use crustaceans_of_life::grid::Grid;
+use crustaceans_of_life::constants::{CELL_SIZE, MARGIN};
+use crustaceans_of_life::game_state::GameState;
 use ggez::conf::NumSamples;
 use ggez::*;
-
-const DESIRED_FPS: u32 = 8;
-struct State {
-    dt: std::time::Duration,
-    grid: Grid,
-}
-
-impl ggez::event::EventHandler<GameError> for State {
-    fn update(&mut self, _ctx: &mut Context) -> Result<(), GameError> {
-        while _ctx.time.check_update_time(DESIRED_FPS) {
-            self.dt = _ctx.time.delta();
-            self.grid.update_state();
-        }
-        Ok(())
-    }
-
-    fn draw(&mut self, _ctx: &mut Context) -> Result<(), GameError> {
-        let mut canvas = graphics::Canvas::from_frame(_ctx, graphics::Color::BLACK);
-        self.grid.draw(_ctx, &mut canvas)?;
-        canvas.finish(_ctx)?;
-        Ok(())
-    }
-}
 fn main() {
-    let mut grid = Grid::new(3, 3);
+    let rows = 3;
+    let cols = 3;
     let some_initial_config: &[&[u8]] = &[&[0, 1, 0], &[0, 1, 0], &[0, 1, 0]];
-    let some_other_initial_config: &[&[u8]] = &[&[0, 1, 0], &[0, 1, 0], &[1, 1, 1]];
-    grid.try_custom_initial_config(some_initial_config);
+    // let some_other_initial_config: &[&[u8]] = &[&[0, 1, 0], &[0, 1, 0], &[1, 1, 1]];
 
-    let state = State {
-        dt: std::time::Duration::new(0, 0),
-        grid: grid,
-    };
+    let game_state = GameState::new(rows, cols, some_initial_config);
     let c = conf::Conf::new();
     let mode_for_the_window = WindowMode {
-        width: 1000.0,
-        height: 500.0,
+        width: (2.0 * MARGIN) + (rows as f32 * CELL_SIZE),
+        height: (2.0 * MARGIN) + (cols as f32 * CELL_SIZE),
         maximized: false,
         fullscreen_type: FullscreenType::Windowed,
         borderless: false,
@@ -67,18 +42,5 @@ fn main() {
         .default_conf(c_copy)
         .build()
         .unwrap();
-    event::run(ctx, event_loop, state);
-
-    // println!("Lets now try a different config");
-    // println!("------------------------------------------------------------- \n");
-    // // grid.try_custom_initial_config(some_initial_config);
-    // state.grid.print_state();
-    // println!("------------------------------------------------------------- \n");
-    // state.grid.print_state();
-    // println!("------------------------------------------------------------- \n");
-    // state.grid.print_state();
-    // println!("------------------------------------------------------------- \n");
-    // state.grid.print_state();
-    // println!("------------------------------------------------------------- \n");
-    // state.grid.print_state();
+    event::run(ctx, event_loop, game_state);
 }

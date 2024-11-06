@@ -1,7 +1,7 @@
+use crate::constants::CELL_SIZE;
+use crate::constants::DELIMITER_WIDTH;
+use crate::constants::MARGIN;
 use ggez::*;
-
-const CELL_SIZE: f32 = 30.0;
-const DELIMITER_WIDTH: f32 = 3.0;
 
 pub struct Cell {
     current_state: State,
@@ -19,8 +19,8 @@ pub enum State {
 impl Cell {
     pub fn new(current_state: State, previous_state: State, position: (usize, usize)) -> Cell {
         let rect_position = (
-            (position.0 as f32 * (CELL_SIZE + DELIMITER_WIDTH)),
-            (position.1 as f32 * (CELL_SIZE + DELIMITER_WIDTH)),
+            (MARGIN + position.0 as f32 * (CELL_SIZE + DELIMITER_WIDTH)),
+            (MARGIN + position.1 as f32 * (CELL_SIZE + DELIMITER_WIDTH)),
         );
         Cell {
             current_state,
