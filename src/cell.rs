@@ -6,7 +6,6 @@ use ggez::*;
 pub struct Cell {
     current_state: State,
     previous_state: State,
-    position: (usize, usize),
     rect_position: (f32, f32),
 }
 
@@ -25,7 +24,6 @@ impl Cell {
         Cell {
             current_state,
             previous_state,
-            position,
             rect_position,
         }
     }

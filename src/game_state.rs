@@ -1,6 +1,6 @@
 use crate::constants::DESIRED_FPS;
 use crate::grid::Grid;
-use ggez::event::{self, Button, MouseButton};
+use ggez::event::MouseButton;
 use ggez::input::keyboard::{KeyCode, KeyInput};
 use ggez::*;
 pub struct GameState {
