@@ -47,6 +47,13 @@ impl Cell {
     pub fn set_current_state(&mut self, state: State) {
         self.current_state = state;
     }
+    pub fn swap_cell_state(&mut self) {
+        self.set_current_state(if self.get_current_state() == State::Alive {
+            State::Dead
+        } else {
+            State::Alive
+        });
+    }
     pub fn draw(
         &mut self,
         ctx: &mut Context,

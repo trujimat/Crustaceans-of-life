@@ -25,7 +25,9 @@ impl GameState {
         game_state
     }
 
-    pub fn rec_to_index() {}
+    pub fn swap_cell(&mut self, x: f32, y: f32) {
+        self.grid.swap_cell(x, y);
+    }
 }
 
 impl ggez::event::EventHandler<GameError> for GameState {
@@ -48,9 +50,9 @@ impl ggez::event::EventHandler<GameError> for GameState {
     ) -> GameResult {
         self.mouse_down = true;
         println!("Mouse button pressed: {button:?}, x: {x}, y: {y}");
-        // if !self.game_started {
-        //     self.get_indexes();
-        // }
+        if !self.game_started {
+            self.swap_cell(x, y);
+        }
         Ok(())
     }
 
