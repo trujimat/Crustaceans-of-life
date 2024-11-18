@@ -1,23 +1,14 @@
-use crustaceans_of_life::grid::Grid;
-fn main() {
-    let mut grid = Grid::new(3, 3);
-    let some_initial_config: &[&[u8]] = &[&[0, 1, 0], &[0, 1, 0], &[0, 1, 0]];
-    let some_other_initial_config: &[&[u8]] = &[&[0, 1, 0], &[0, 1, 0], &[1, 1, 1]];
+use crustaceans_of_life::constants::{COLS, ROWS};
+use crustaceans_of_life::game_state::GameState;
+use ggez::*;
 
-    println!("Lets now try a different config");
-    println!("------------------------------------------------------------- \n");
-    grid.try_custom_initial_config(some_other_initial_config);
-    grid.print_state();
-    println!("------------------------------------------------------------- \n");
-    grid.update_state();
-    grid.print_state();
-    println!("------------------------------------------------------------- \n");
-    grid.update_state();
-    grid.print_state();
-    println!("------------------------------------------------------------- \n");
-    grid.update_state();
-    grid.print_state();
-    println!("------------------------------------------------------------- \n");
-    grid.update_state();
-    grid.print_state();
+fn main() {
+    // Initialize the game state with configuration
+    let game_state = GameState::new(ROWS, COLS);
+
+    // Set up the ggez context and event loop
+    let (ctx, event_loop) = game_state.setup_window();
+
+    // Run the game
+    event::run(ctx, event_loop, game_state);
 }

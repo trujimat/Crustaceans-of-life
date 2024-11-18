@@ -1,7 +1,12 @@
+use crate::constants::CELL_SIZE;
+use crate::constants::DELIMITER_WIDTH;
+use crate::constants::MARGIN;
+use ggez::*;
+
 pub struct Cell {
     current_state: State,
     previous_state: State,
-    position: (usize, usize),
+    rect_position: (f32, f32),
 }
 
 #[derive(Debug, Clone, PartialEq)]
@@ -12,10 +17,14 @@ pub enum State {
 
 impl Cell {
     pub fn new(current_state: State, previous_state: State, position: (usize, usize)) -> Cell {
+        let rect_position = (
+            (MARGIN + position.0 as f32 * (CELL_SIZE + DELIMITER_WIDTH)),
+            (MARGIN + position.1 as f32 * (CELL_SIZE + DELIMITER_WIDTH)),
+        );
         Cell {
             current_state,
             previous_state,
-            position,
+            rect_position,
         }
     }
     pub fn update_state(&mut self, alive_neighbors: u8) {
@@ -35,5 +44,32 @@ impl Cell {
     }
     pub fn set_current_state(&mut self, state: State) {
         self.current_state = state;
+    }
+    pub fn swap_cell_state(&mut self) {
+        self.set_current_state(if self.get_current_state() == State::Alive {
+            State::Dead
+        } else {
+            State::Alive
+        });
+    }
+    pub fn draw(
+        &mut self,
+        ctx: &mut Context,
+        canvas: &mut graphics::Canvas,
+    ) -> Result<(), GameError> {
+        let rectangle = graphics::Mesh::new_rectangle(
+            ctx,
+            graphics::DrawMode::fill(),
+            graphics::Rect::new(
+                self.rect_position.0,
+                self.rect_position.1,
+                CELL_SIZE,
+                CELL_SIZE,
+            ),
+            graphics::Color::WHITE,
+        )?;
+
+        canvas.draw(&rectangle, graphics::DrawParam::default());
+        Ok(())
     }
 }

@@ -1,4 +1,8 @@
-use crate::cell::{Cell, State};
+use crate::{
+    cell::{Cell, State},
+    constants::{CELL_SIZE, DELIMITER_WIDTH, MARGIN},
+};
+use ggez::*;
 
 pub struct Grid {
     rows: usize,
@@ -25,6 +29,7 @@ impl Grid {
                 self.update_cell_state(x, y);
             }
         }
+        // self.print_state();
     }
 
     pub fn update_cell_state(&mut self, x: usize, y: usize) {
@@ -79,11 +84,6 @@ impl Grid {
                             == State::Alive
                     {
                         alive_neighbors += 1;
-                        // println!(
-                        //     "at least one alive neighbor 2, alive_neigbors: {}",
-                        //     alive_neighbors
-                        // );
-                        // println!("and the cell is {:?}", (x, y));
                     }
                 }
             }
@@ -112,5 +112,34 @@ impl Grid {
                 }
             }
         }
+    }
+
+    pub fn draw(
+        &mut self,
+        ctx: &mut Context,
+        canvas: &mut graphics::Canvas,
+    ) -> Result<(), GameError> {
+        for x in 0..self.rows {
+            for y in 0..self.cols {
+                if self.cells[x][y].get_current_state() == State::Alive {
+                    self.cells[x][y].draw(ctx, canvas)?;
+                }
+            }
+        }
+        Ok(())
+    }
+
+    pub fn swap_cell(&mut self, x: f32, y: f32) {
+        let indexes = self.rec_to_indexes(x, y);
+        if indexes.0 < self.rows && indexes.1 < self.cols {
+            self.cells[indexes.0][indexes.1].swap_cell_state();
+        }
+    }
+
+    fn rec_to_indexes(&self, x: f32, y: f32) -> (usize, usize) {
+        let mut indexes = (0, 0);
+        indexes.0 = ((x - MARGIN) / (CELL_SIZE + DELIMITER_WIDTH)) as usize;
+        indexes.1 = ((y - MARGIN) / (CELL_SIZE + DELIMITER_WIDTH)) as usize;
+        indexes
     }
 }
