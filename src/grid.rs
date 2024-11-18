@@ -29,8 +29,7 @@ impl Grid {
                 self.update_cell_state(x, y);
             }
         }
-        println!("------------------------------------------------------------- \n");
-        self.print_state();
+        // self.print_state();
     }
 
     pub fn update_cell_state(&mut self, x: usize, y: usize) {
@@ -85,11 +84,6 @@ impl Grid {
                             == State::Alive
                     {
                         alive_neighbors += 1;
-                        // println!(
-                        //     "at least one alive neighbor 2, alive_neigbors: {}",
-                        //     alive_neighbors
-                        // );
-                        // println!("and the cell is {:?}", (x, y));
                     }
                 }
             }

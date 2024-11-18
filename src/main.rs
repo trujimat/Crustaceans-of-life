@@ -5,16 +5,14 @@ use crustaceans_of_life::game_state::GameState;
 use ggez::conf::NumSamples;
 use ggez::*;
 fn main() {
-    let rows = 3;
-    let cols = 3;
-    let some_initial_config: &[&[u8]] = &[&[0, 1, 0], &[0, 1, 0], &[0, 1, 0]];
-    // let some_other_initial_config: &[&[u8]] = &[&[0, 1, 0], &[0, 1, 0], &[1, 1, 1]];
+    let rows = 20;
+    let cols = 20;
 
-    let game_state = GameState::new(rows, cols, some_initial_config);
+    let game_state = GameState::new(rows, cols);
     let c = conf::Conf::new();
     let mode_for_the_window = WindowMode {
-        width: (2.0 * MARGIN) + (rows as f32 * CELL_SIZE),
-        height: (2.0 * MARGIN) + (cols as f32 * CELL_SIZE),
+        width: (2.0 * MARGIN) + (rows as f32 * CELL_SIZE) / 2.0,
+        height: (2.0 * MARGIN) + (cols as f32 * CELL_SIZE) / 2.0,
         maximized: false,
         fullscreen_type: FullscreenType::Windowed,
         borderless: false,

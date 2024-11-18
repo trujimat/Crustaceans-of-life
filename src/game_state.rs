@@ -11,9 +11,8 @@ pub struct GameState {
 }
 
 impl GameState {
-    pub fn new(rows: usize, cols: usize, config: &[&[u8]]) -> GameState {
-        let mut grid = Grid::new(rows, cols);
-        grid.try_custom_initial_config(config);
+    pub fn new(rows: usize, cols: usize) -> GameState {
+        let grid = Grid::new(rows, cols);
 
         let game_state = GameState {
             dt: std::time::Duration::new(0, 0),
