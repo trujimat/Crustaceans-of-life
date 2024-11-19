@@ -6,27 +6,37 @@
 
 - **Dynamic Cell Interaction**: Modify the grid interactively using mouse clicks.  
 - **Smooth Animations**: Responsive gameplay with adjustable frame rates.  
-- **Customizable Grid**: Easily configure grid size and initial patterns.  
-- **Rust Power**: Leverages Rust's performance and safety to simulate the Game of Life seamlessly.  
+- **Customizable Grid**: Easily configure grid size and initial patterns.   
 
 ## Installation  
 
-1. **Prerequisites**:  
+1. **Prerequisites**:
+   - Linux Operating system, the project has not been tested on Windows
    - Rust (latest stable version). Install it from [rust-lang.org](https://www.rust-lang.org/tools/install).  
-   - A C compiler (required for `ggez` dependencies). For Windows, use [MinGW](http://www.mingw.org/).  
+   - A C compiler (required for `ggez` dependencies)  
 
-2. **Clone the Repository**:  
+3. **Clone the Repository**:  
    ```bash
    git clone https://github.com/your-username/crustaceans-of-life.git
    cd crustaceans-of-life
    
-3. **Build and Run**:
+4. **Build and Run**:
    ```bash
    cargo run
 
-4. **How to play**:
-Mouse Interaction:
-Left-click on any cell to toggle its state (alive or dead).
-Keyboard Interaction:
-Press Space to start the simulation.
+5. **How to play**:
+   1. **Mouse Interaction**:
+   Left-click on any cell to toggle its state (alive or dead).
+   2. **Keyboard Interaction**:
+   Press Space to start the simulation.
+
+## About the game
+
+The Game of Life is fascinating because of its unpredictability. There is no known algorithm that can universally determine if a given initial configuration will eventually:
+
+- Die out (all cells become dead),
+- Stabilize (reach a repeating pattern), or
+- Grow infinitely.
+
+Each starting configuration leads to emergent pattern.
 
